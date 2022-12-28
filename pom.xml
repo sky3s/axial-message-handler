@@ -3,13 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.6</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-
     <groupId>com.axial.spring.modules</groupId>
     <artifactId>message-handler</artifactId>
     <version>0.0.1</version>
@@ -21,10 +14,20 @@
 
     <properties>
 
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
 
         <!-- Module Dependencies -->
         <commons.version>0.0.1</commons.version>
+
+        <!-- Maven Dependencies -->
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+
+        <!-- Java Dependencies -->
+        <jakarta-servlet-api.version>6.0.0</jakarta-servlet-api.version>
+
+        <!-- Spring Dependencies -->
+        <spring-boot-starter.version>3.0.1</spring-boot-starter.version>
 
         <!-- commons dependencies with specific versions -->
         <commons-lang3.version>3.12.0</commons-lang3.version>
@@ -33,22 +36,26 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Module Dependencies -->
         <dependency>
             <groupId>com.axial.spring.modules</groupId>
             <artifactId>commons</artifactId>
             <version>${commons.version}</version>
+        </dependency>
+
+        <!-- Java Dependencies -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta-servlet-api.version}</version>
+        </dependency>
+
+        <!-- Spring Dependencies -->
+        <!-- Core starter, including auto-configuration support, logging and YAML -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot-starter.version}</version>
         </dependency>
 
         <!-- commons dependencies with specific versions -->
@@ -62,10 +69,26 @@
 
     <build>
         <plugins>
+
+            <!-- The Compiler Plugin is used to compile the sources of your project. -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <!-- Java Version -->
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
             </plugin>
+
+            <!-- Builds a Java Archive (JAR) file from the compiled project classes and resources. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+            </plugin>
+
         </plugins>
     </build>
 

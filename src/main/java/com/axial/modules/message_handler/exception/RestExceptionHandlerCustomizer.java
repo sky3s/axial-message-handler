@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -32,13 +33,15 @@ public class RestExceptionHandlerCustomizer extends ResponseEntityExceptionHandl
 
 
     @Override
-    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+            HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         return RestExceptionUtils.createGenericResponseEntityForError(HttpStatus.METHOD_NOT_ALLOWED, ex, RestExceptionMessageCode.METHOD_NOT_ALLOWED_ERROR.getCode(), ex.getMessage(), null);
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         log.error(ex.getClass().getName(), ex);
         final Throwable cause = ExceptionUtils.getRootCause(ex);
@@ -59,30 +62,27 @@ public class RestExceptionHandlerCustomizer extends ResponseEntityExceptionHandl
     }
 
     @Override
-    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         return handleArgumentException(ex, headers, status, request);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-        return handleArgumentException(ex, headers, status, request);
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMissingPathVariable(
+            MissingPathVariableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         return handleServletRequestBindingExceptions(ex, headers, HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(
+            MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         return handleServletRequestBindingExceptions(ex, headers, HttpStatus.BAD_REQUEST, request);
     }
 
-    protected ResponseEntity<Object> handleArgumentException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleArgumentException(BindException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         log.error(ex.getClass().getName(), ex);
         final List<Message> messages = RestExceptionUtils.getFieldErrorsAsMessageArray(ex, ex.getFieldErrors());

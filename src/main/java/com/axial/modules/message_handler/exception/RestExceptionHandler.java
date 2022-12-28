@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 
-/**
- * CREATE_PROJECT: INITIAL
- * Add additional custom exception handle methods with @ExceptionHandler annotation
- */
 @Slf4j
 @ControllerAdvice
 @AllArgsConstructor
