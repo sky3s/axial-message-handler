@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.axial.spring.modules</groupId>
-    <artifactId>message-handler</artifactId>
+    <artifactId>axial-message-handler</artifactId>
     <version>0.0.1</version>
 
-    <name>message-handler</name>
+    <name>axial-message-handler</name>
     <description>Axial Spring Boot Message Handler</description>
 
     <packaging>jar</packaging>
